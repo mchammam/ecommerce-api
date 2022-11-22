@@ -12,5 +12,8 @@ router.get('/', (req, res) => {
     res.send('Articles')
     console.log('articles')
 })
+.patch('/', (req, res) => {
+    res.send('Articles patch')
+})
 
 module.exports = router
