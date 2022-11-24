@@ -46,11 +46,13 @@ router.get('/', async (req, res) => {
     const sortBy = req.query.sortBy ? req.query.sortBy : "_id"
     const order = req.query.order ? req.query.order : -1
 
+    console.log(req.query.filter)
+
     const page = req.query.page ? req.query.page : 1
     const limit = req.query.limit ? req.query.limit : 10
     const skipIndex = (page - 1) * limit;
 
-    const articles = await Article.find()
+    const articles = await Article.find(req.query.filter)
         .sort({ [sortBy]: order })
         .limit(limit)
         .skip(skipIndex)
