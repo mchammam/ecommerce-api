@@ -6,30 +6,30 @@ const Article = require('../models/Article')
 function createLinkHeader({ page, limit, totalCount, query }) {
     const last = Math.ceil(totalCount / limit)
     const next = page < last ? page + 1 : null
-    const previous = page > 1 ? page - 1 : null
+    const prev = page > 1 ? page - 1 : null
 
     const linkHeader = new Array()
 
     const selfLinkURL = new URLSearchParams(query);
-    linkHeader.push(`/${selfLinkURL}; rel=self`)
+    linkHeader.push(`</?${selfLinkURL}>; rel=self`)
 
     const lastLinkQuery = { ...query }
     lastLinkQuery.page = last
     const lastLinkURL = new URLSearchParams(lastLinkQuery);
-    linkHeader.push(`/${lastLinkURL}; rel=last`)
+    linkHeader.push(`</?${lastLinkURL}>; rel=last`)
 
     if (next) {
         const nextLinkQuery = { ...query }
         nextLinkQuery.page = next
         const nextLinkURL = new URLSearchParams(nextLinkQuery);
-        linkHeader.push(`, /${nextLinkURL}; rel=next`)
+        linkHeader.push(`</?${nextLinkURL}>; rel=next`)
     }
 
-    if (previous) {
-        const previousLinkQuery = { ...query }
-        previousLinkQuery.page = previous
-        const previousLinkURL = new URLSearchParams(previousLinkQuery);
-        linkHeader.push(`, /?${previousLinkURL}; rel=previous`)
+    if (prev) {
+        const prevLinkQuery = { ...query }
+        prevLinkQuery.page = prev
+        const prevLinkURL = new URLSearchParams(prevLinkQuery);
+        linkHeader.push(`</?${prevLinkURL}>; rel=prev`)
     }
 
     return linkHeader.join(", ")
@@ -45,8 +45,6 @@ function createLinkHeader({ page, limit, totalCount, query }) {
 router.get('/', async (req, res) => {
     const sortBy = req.query.sortBy ? req.query.sortBy : "_id"
     const order = req.query.order ? req.query.order : -1
-
-    console.log(req.query.filter)
 
     const page = req.query.page ? req.query.page : 1
     const limit = req.query.limit ? req.query.limit : 10
@@ -67,8 +65,8 @@ router.get('/', async (req, res) => {
 
 
     res.set('X-Total-Count', `${totalCount}`)
-    res.set('link', linkHeader)
-    res.json(articles)
+    res.set('Link', linkHeader)
+    res.json({data: articles})
 })
 
     .get('/:id', async (req, res) => {

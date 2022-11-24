@@ -1,4 +1,4 @@
-GET http://127.0.0.1:2000/articles/?sortBy=brand&order=-1&limit=&page=1&filter[brand]=SNEAKER COMPAN'Y
+GET http://127.0.0.1:2000/articles/?sortBy=brand&order=-1&limit=1&page=2
 
 ###
 GET http://127.0.0.1:2000/articles/637d05b707c7f39f71f3bc42
