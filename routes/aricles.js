@@ -41,7 +41,7 @@ function createLinkHeader({ page, limit, totalCount, query }) {
 //User settings and profile (GET & UPDATE)
 //Place orders??
 
-// (filter, pagination)
+// (filter)
 router.get('/', async (req, res) => {
     const sortBy = req.query.sortBy ? req.query.sortBy : "_id"
     const order = req.query.order ? req.query.order : -1
